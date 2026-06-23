@@ -28,5 +28,11 @@ Route::resource('buku', BukuController::class);
 Route::get('/buku/kategori/{kategori}', [BukuController::class, 'filterKategori'])
     ->name('buku.kategori');
 
+// Custom route untuk search anggota (harus sebelum resource routes)
+Route::get('/anggota/search', [AnggotaController::class, 'search'])->name('anggota.search');
+
+// Export anggota ke Excel (harus sebelum resource routes)
+Route::get('/anggota/export', [AnggotaController::class, 'export'])->name('anggota.export');
+
 // Resource route untuk Anggota
 Route::resource('anggota', AnggotaController::class);
