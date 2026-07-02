@@ -1,246 +1,281 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dashboard Perpustakaan') }}
+        </h2>
+    </x-slot>
 
-@section('title', 'Dashboard - Sistem Perpustakaan')
-
-@section('content')
-<div class="mb-4">
-    <h1>
-        <i class="bi bi-speedometer2"></i>
-        Dashboard
-    </h1>
-    <p class="text-muted">Ringkasan statistik dan data terbaru Sistem Perpustakaan</p>
-</div>
-
-{{-- Statistik Buku --}}
-<div class="row mb-5">
-    <div class="col-md-4 mb-3">
-        <div class="card border-left-primary">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted text-uppercase font-weight-bold">Total Buku</h6>
-                        <h2 class="text-primary">{{ $totalBuku }}</h2>
-                    </div>
-                    <i class="bi bi-book-fill text-primary" style="font-size: 3rem; opacity: 0.5;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-3">
-        <div class="card border-left-success">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted text-uppercase font-weight-bold">Buku Tersedia</h6>
-                        <h2 class="text-success">{{ $bukuTersedia }}</h2>
-                    </div>
-                    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem; opacity: 0.5;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-3">
-        <div class="card border-left-danger">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted text-uppercase font-weight-bold">Buku Habis</h6>
-                        <h2 class="text-danger">{{ $bukuHabis }}</h2>
-                    </div>
-                    <i class="bi bi-x-circle-fill text-danger" style="font-size: 3rem; opacity: 0.5;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Statistik Anggota --}}
-<div class="row mb-5">
-    <div class="col-md-4 mb-3">
-        <div class="card border-left-info">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted text-uppercase font-weight-bold">Total Anggota</h6>
-                        <h2 class="text-info">{{ $totalAnggota }}</h2>
-                    </div>
-                    <i class="bi bi-people-fill text-info" style="font-size: 3rem; opacity: 0.5;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-3">
-        <div class="card border-left-success">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted text-uppercase font-weight-bold">Anggota Aktif</h6>
-                        <h2 class="text-success">{{ $anggotaAktif }}</h2>
-                    </div>
-                    <i class="bi bi-person-check-fill text-success" style="font-size: 3rem; opacity: 0.5;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-3">
-        <div class="card border-left-warning">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="text-muted text-uppercase font-weight-bold">Anggota Nonaktif</h6>
-                        <h2 class="text-warning">{{ $anggotaNonaktif }}</h2>
-                    </div>
-                    <i class="bi bi-person-x-fill text-warning" style="font-size: 3rem; opacity: 0.5;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    {{-- Buku Terbaru --}}
-    <div class="col-lg-6 mb-4">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">
-                    <i class="bi bi-calendar-event"></i>
-                    5 Buku Terbaru
-                </h5>
-            </div>
-            <div class="card-body">
-                @forelse ($bukuTerbaru as $buku)
-                    <div class="mb-3 pb-3 border-bottom">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">
-                                    <a href="{{ route('buku.show', $buku->id) }}" class="text-decoration-none">
-                                        {{ $buku->judul }}
-                                    </a>
-                                </h6>
-                                <small class="text-muted">
-                                    {{ $buku->pengarang }} | {{ $buku->tahun_terbit }}
-                                </small>
-                                <div class="mt-2">
-                                    <span class="badge bg-info">{{ $buku->kategori }}</span>
-                                    @if ($buku->stok > 0)
-                                        <span class="badge bg-success">Tersedia: {{ $buku->stok }}</span>
-                                    @else
-                                        <span class="badge bg-danger">Habis</span>
-                                    @endif
-                                </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
                             </div>
-                            <div class="text-end ms-2">
-                                <strong class="text-primary">Rp {{ number_format($buku->harga, 0, ',', '.') }}</strong>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Total Buku</p>
+                                <p class="text-2xl font-semibold text-gray-900">{{ \App\Models\Buku::count() }}</p>
                             </div>
                         </div>
                     </div>
-                @empty
-                    <p class="text-muted text-center">Tidak ada data buku</p>
-                @endforelse
-            </div>
-            <div class="card-footer">
-                <a href="{{ route('buku.index') }}" class="btn btn-sm btn-primary">
-                    <i class="bi bi-arrow-right"></i> Lihat Semua Buku
-                </a>
-            </div>
-        </div>
-    </div>
+                </div>
 
-    {{-- Anggota Terbaru --}}
-    <div class="col-lg-6 mb-4">
-        <div class="card">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0">
-                    <i class="bi bi-calendar-event"></i>
-                    5 Anggota Terbaru
-                </h5>
-            </div>
-            <div class="card-body">
-                @forelse ($anggotaTerbaru as $anggota)
-                    <div class="mb-3 pb-3 border-bottom">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">
-                                    <a href="{{ route('anggota.show', $anggota->id) }}" class="text-decoration-none">
-                                        {{ $anggota->nama }}
-                                    </a>
-                                </h6>
-                                <small class="text-muted">
-                                    <i class="bi bi-envelope"></i> {{ $anggota->email }}
-                                </small>
-                                <div class="mt-2">
-                                    @if ($anggota->jenis_kelamin == 'Laki-laki')
-                                        <span class="badge bg-info">
-                                            <i class="bi bi-gender-male"></i> Laki-laki
-                                        </span>
-                                    @else
-                                        <span class="badge bg-danger">
-                                            <i class="bi bi-gender-female"></i> Perempuan
-                                        </span>
-                                    @endif
-                                    @if ($anggota->status == 'Aktif')
-                                        <span class="badge bg-success">Aktif</span>
-                                    @else
-                                        <span class="badge bg-secondary">Nonaktif</span>
-                                    @endif
-                                </div>
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
                             </div>
-                            <div class="text-end ms-2">
-                                <small class="text-muted d-block">
-                                    <i class="bi bi-calendar-check"></i><br>
-                                    {{ $anggota->created_at->format('d/m/Y') }}
-                                </small>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Total Anggota</p>
+                                <p class="text-2xl font-semibold text-gray-900">{{ \App\Models\Anggota::count() }}</p>
                             </div>
                         </div>
                     </div>
-                @empty
-                    <p class="text-muted text-center">Tidak ada data anggota</p>
-                @endforelse
-            </div>
-            <div class="card-footer">
-                <a href="{{ route('anggota.index') }}" class="btn btn-sm btn-success">
-                    <i class="bi bi-arrow-right"></i> Lihat Semua Anggota
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+                </div>
 
-{{-- Quick Links --}}
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-dark text-white">
-                <h5 class="mb-0">
-                    <i class="bi bi-lightning"></i>
-                    Quick Links Menu Utama
-                </h5>
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Dipinjam</p>
+                                <p class="text-2xl font-semibold text-gray-900">
+                                    {{ \App\Models\Transaksi::where('status', 'Dipinjam')->count() }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-600">Transaksi Hari Ini</p>
+                                <p class="text-2xl font-semibold text-gray-900">
+                                    {{ \App\Models\Transaksi::whereDate('created_at', today())->count() }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Tugas 3: Card Buku Terlambat --}}
+                @php
+                    $bukuTerlambat = \App\Models\Transaksi::with(['anggota', 'buku'])
+                        ->where('status', 'Dipinjam')
+                        ->where('tanggal_kembali', '<', now())
+                        ->get();
+                @endphp
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-2 border-red-500">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-red-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-red-600">Buku Terlambat</p>
+                                <p class="text-2xl font-semibold text-red-600">{{ $bukuTerlambat->count() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3 mb-2">
-                        <a href="{{ route('buku.index') }}" class="btn btn-outline-primary btn-block w-100">
-                            <i class="bi bi-book"></i> Kelola Buku
+
+            <!-- Quick Actions -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4">Aksi Cepat</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <a href="{{ route('buku.create') }}"
+                            class="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                            <svg class="h-8 w-8 text-blue-600 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            <span class="font-medium text-blue-900">Tambah Buku</span>
+                        </a>
+
+                        <a href="{{ route('anggota.create') }}"
+                            class="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
+                            <svg class="h-8 w-8 text-green-600 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                            </svg>
+                            <span class="font-medium text-green-900">Tambah Anggota</span>
+                        </a>
+
+                        <a href="{{ route('transaksi.create') }}"
+                            class="flex items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
+                            <svg class="h-8 w-8 text-yellow-600 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                            <span class="font-medium text-yellow-900">Pinjam Buku</span>
+                        </a>
+
+                        <a href="{{ route('transaksi.index') }}"
+                            class="flex items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
+                            <svg class="h-8 w-8 text-purple-600 mr-3" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <span class="font-medium text-purple-900">Lihat Transaksi</span>
                         </a>
                     </div>
-                    <div class="col-md-3 mb-2">
-                        <a href="{{ route('anggota.index') }}" class="btn btn-outline-success btn-block w-100">
-                            <i class="bi bi-people"></i> Kelola Anggota
-                        </a>
+                </div>
+            </div>
+
+            {{-- Tugas 3: Daftar Buku Terlambat --}}
+            @if($bukuTerlambat->count() > 0)
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 border-2 border-red-300">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-red-600">
+                            <svg class="h-5 w-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                            </svg>
+                            Daftar Buku Terlambat
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-red-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
+                                            Anggota</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
+                                            Buku</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
+                                            Batas Kembali</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
+                                            Terlambat</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
+                                            Est. Denda</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($bukuTerlambat as $item)
+                                        <tr class="hover:bg-red-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                {{ $item->anggota->nama }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ $item->buku->judul }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ $item->tanggal_kembali->format('d M Y') }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                    {{ $item->terlambat }} hari
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-red-600">
+                                                Rp
+                                                {{ number_format($item->terlambat * 5000, 0, ',', '.') }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-md-3 mb-2">
-                        <a href="{{ route('buku.create') }}" class="btn btn-outline-info btn-block w-100">
-                            <i class="bi bi-plus-circle"></i> Tambah Buku
-                        </a>
-                    </div>
-                    <div class="col-md-3 mb-2">
-                        <a href="{{ route('anggota.create') }}" class="btn btn-outline-warning btn-block w-100">
-                            <i class="bi bi-person-plus"></i> Tambah Anggota
-                        </a>
+                </div>
+            @endif
+
+            <!-- Recent Transactions -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4">Transaksi Terbaru</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Kode</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Anggota</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Buku</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal Pinjam</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @forelse(\App\Models\Transaksi::with(['anggota', 'buku'])->latest()->take(5)->get() as $transaksi)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {{ $transaksi->kode_transaksi }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ $transaksi->anggota->nama }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ $transaksi->buku->judul }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ $transaksi->tanggal_pinjam->format('d M Y') }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transaksi->status == 'Dipinjam' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' }}">
+                                                {{ $transaksi->status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            Belum ada transaksi
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+</x-app-layout>
