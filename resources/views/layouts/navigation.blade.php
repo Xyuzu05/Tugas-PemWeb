@@ -24,7 +24,21 @@
                     <x-nav-link :href="route('transaksi.index')" :active="request()->routeIs('transaksi.*')">
                         {{ __('Transaksi') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">
+                        {{ __('Laporan') }}
+                    </x-nav-link>
                 </div>
+            </div>
+
+            <!-- Search Form -->
+            <div class="hidden sm:flex sm:items-center sm:ml-4">
+                <form class="d-flex" action="{{ route('search') }}" method="GET">
+                    <input class="form-control form-control-sm me-2" type="search" name="q"
+                           placeholder="Cari..." value="{{ request('q') }}" style="width: 200px;">
+                    <button class="btn btn-sm btn-outline-secondary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
             </div>
 
             <!-- Settings Dropdown -->

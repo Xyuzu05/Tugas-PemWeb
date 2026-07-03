@@ -84,10 +84,31 @@ class AnggotaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         $anggota = Anggota::findOrFail($id);
-        return view('anggota.show', compact('anggota'));
+
+        // Query transaksi anggota
+        $transaksiQuery = \App\Models\Transaksi::with('buku')
+                            ->where('anggota_id', $id);
+
+        // Filter by status jika ada
+        if ($request->filled('status_filter')) {
+            $transaksiQuery->where('status', $request->status_filter);
+        }
+
+        $transaksis = $transaksiQuery->latest('tanggal_pinjam')->get();
+
+        // Statistik peminjaman
+        $allTransaksi = \App\Models\Transaksi::where('anggota_id', $id)->get();
+        $statsAnggota = [
+            'total_pinjam'   => $allTransaksi->count(),
+            'sedang_pinjam'  => $allTransaksi->where('status', 'Dipinjam')->count(),
+            'dikembalikan'   => $allTransaksi->where('status', 'Dikembalikan')->count(),
+            'total_denda'    => $allTransaksi->sum('denda'),
+        ];
+
+        return view('anggota.show', compact('anggota', 'transaksis', 'statsAnggota'));
     }
 
     /**
@@ -178,6 +199,16 @@ class AnggotaController extends Controller
 
         if ($request->pekerjaan) {
             $query->where('pekerjaan', $request->pekerjaan);
+        }
+
+        // Filter range umur
+        if ($request->filled('umur_min')) {
+            $maxDate = now()->subYears((int) $request->umur_min)->format('Y-m-d');
+            $query->where('tanggal_lahir', '<=', $maxDate);
+        }
+        if ($request->filled('umur_max')) {
+            $minDate = now()->subYears((int) $request->umur_max + 1)->addDay()->format('Y-m-d');
+            $query->where('tanggal_lahir', '>=', $minDate);
         }
 
         $anggotas = $query->latest()->get();

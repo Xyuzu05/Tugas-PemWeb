@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes (tanpa auth)
@@ -14,9 +18,7 @@ Route::get('/', function () {
 // Protected routes (dengan auth middleware)
 Route::middleware(['auth'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,11 +37,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/anggota/export', [AnggotaController::class, 'export'])->name('anggota.export');
     Route::resource('anggota', AnggotaController::class);
 
+    // Kategori - CRUD
+    Route::resource('kategori', KategoriController::class)->except(['show']);
+
     // Transaksi - CRUD + Custom routes
     Route::get('/transaksi/laporan', [TransaksiController::class, 'laporan'])->name('transaksi.laporan');
     Route::get('/transaksi/laporan/export-pdf', [TransaksiController::class, 'exportPdf'])->name('transaksi.exportPdf');
-    Route::resource('transaksi', TransaksiController::class);
     Route::put('/transaksi/{id}/kembalikan', [TransaksiController::class, 'kembalikan'])->name('transaksi.kembalikan');
+    Route::resource('transaksi', TransaksiController::class);
+
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 });
 
 require __DIR__ . '/auth.php';

@@ -132,22 +132,56 @@
                     </table>
 
                     <hr>
-
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">
                             <i class="bi bi-arrow-left"></i> Kembali
                         </a>
 
-                        @if($transaksi->status == 'Dipinjam')
-                            <form action="{{ route('transaksi.kembalikan', $transaksi->id) }}" method="POST"
-                                onsubmit="return confirm('Konfirmasi pengembalian buku?{{ $transaksi->terlambat > 0 ? '\nDenda keterlambatan: Rp ' . number_format($transaksi->terlambat * 5000, 0, ',', '.') : '' }}')">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-success btn-lg">
-                                    <i class="bi bi-check-circle"></i> Kembalikan Buku
+                        @if($transaksi->status === 'Dipinjam')
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-kembalikan">
+                                    <i class="bi bi-arrow-return-left"></i> Kembalikan Buku
                                 </button>
-                            </form>
+                                <form id="form-kembalikan" action="{{ route('transaksi.kembalikan', $transaksi->id) }}" method="POST" class="d-none">
+                                    @csrf
+                                    @method('PUT')
+                                </form>
+                            </div>
+                        @else
+                            @if($transaksi->tanggal_dikembalikan <= $transaksi->tanggal_kembali)
+                                <div class="alert alert-success mb-0 py-2">
+                                    <i class="bi bi-check-circle"></i> Dikembalikan tepat waktu pada
+                                    {{ $transaksi->tanggal_dikembalikan->format('d M Y') }}
+                                </div>
+                            @else
+                                <div class="alert alert-warning mb-0 py-2">
+                                    <i class="bi bi-exclamation-triangle"></i> Terlambat dikembalikan!
+                                    Denda: Rp {{ number_format($transaksi->denda, 0, ',', '.') }}
+                                </div>
+                            @endif
                         @endif
+                    </div>
+
+                    <x-slot name="scripts">
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                        <script>
+                            document.getElementById('btn-kembalikan')?.addEventListener('click', function() {
+                                Swal.fire({
+                                    title: 'Konfirmasi Pengembalian',
+                                    text: 'Apakah Anda yakin ingin mengembalikan buku ini?',
+                                    icon: 'question',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#198754',
+                                    confirmButtonText: 'Ya, Kembalikan!',
+                                    cancelButtonText: 'Batal'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        document.getElementById('form-kembalikan').submit();
+                                    }
+                                });
+                            });
+                        </script>
+                    </x-slot>
                     </div>
                 </div>
             </div>

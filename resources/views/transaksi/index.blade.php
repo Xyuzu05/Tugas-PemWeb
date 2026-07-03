@@ -16,6 +16,54 @@
         </div>
     </div>
 
+    {{-- Filter Form --}}
+    <div class="card mb-4">
+        <div class="card-header bg-light">
+            <h6 class="mb-0"><i class="bi bi-funnel"></i> Filter Transaksi</h6>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('transaksi.index') }}" method="GET">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-2">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select form-select-sm">
+                            <option value="">Semua</option>
+                            <option value="Dipinjam" {{ request('status') == 'Dipinjam' ? 'selected' : '' }}>Dipinjam</option>
+                            <option value="Dikembalikan" {{ request('status') == 'Dikembalikan' ? 'selected' : '' }}>Dikembalikan</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Anggota</label>
+                        <select name="anggota_id" class="form-select form-select-sm">
+                            <option value="">Semua Anggota</option>
+                            @foreach($anggotas as $a)
+                                <option value="{{ $a->id }}" {{ request('anggota_id') == $a->id ? 'selected' : '' }}>
+                                    {{ $a->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Dari Tanggal</label>
+                        <input type="date" name="dari" class="form-control form-control-sm" value="{{ request('dari') }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Sampai Tanggal</label>
+                        <input type="date" name="sampai" class="form-control form-control-sm" value="{{ request('sampai') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="bi bi-search"></i> Filter
+                        </button>
+                        <a href="{{ route('transaksi.index') }}" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-x-circle"></i> Reset
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     {{-- Statistik --}}
     <div class="row mb-4">
         <div class="col-md-3">
@@ -42,7 +90,7 @@
                 </div>
             </div>
         </div>
-        {{-- Tugas 3: Card Terlambat --}}
+        {{-- Card Terlambat --}}
         <div class="col-md-3">
             <div class="card border-danger">
                 <div class="card-body">
@@ -86,7 +134,7 @@
                                 <td>
                                     @if($transaksi->status == 'Dipinjam')
                                         <span class="badge bg-warning text-dark">Dipinjam</span>
-                                        {{-- Tugas 3: Badge Terlambat --}}
+                                        {{-- Badge Terlambat --}}
                                         @if($transaksi->terlambat > 0)
                                             <br>
                                             <span class="badge bg-danger mt-1">

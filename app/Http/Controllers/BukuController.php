@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use App\Models\Kategori;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 
@@ -40,7 +41,8 @@ class BukuController extends Controller
     public function create()
     {
         // Akan diimplementasi di pertemuan 12
-        return view('buku.create');
+        $kategoris = Kategori::orderBy('nama_kategori')->pluck('nama_kategori');
+        return view('buku.create', compact('kategoris'));
     }
 
     /**
@@ -81,8 +83,9 @@ public function store(StoreBukuRequest $request)
      */
     public function edit(string $id)
     {
-    $buku = Buku::findOrFail($id);
-    return view('buku.edit', compact('buku'));
+        $buku = Buku::findOrFail($id);
+        $kategoris = Kategori::orderBy('nama_kategori')->pluck('nama_kategori');
+        return view('buku.edit', compact('buku', 'kategoris'));
     }
 
     /**
@@ -240,45 +243,13 @@ public function store(StoreBukuRequest $request)
     }
 
     /**
-     * Export data buku ke file CSV.
+     * Export data buku ke file Excel.
      */
     public function export()
     {
-        $bukus = Buku::all();
-
-        $filename = 'buku_' . date('Y-m-d_His') . '.csv';
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ];
-
-        $callback = function() use ($bukus) {
-            $file = fopen('php://output', 'w');
-
-            // Header CSV
-            fputcsv($file, [
-                'Kode Buku', 'Judul', 'Kategori', 'Pengarang',
-                'Penerbit', 'Tahun', 'ISBN', 'Harga', 'Stok'
-            ]);
-
-            // Data
-            foreach ($bukus as $buku) {
-                fputcsv($file, [
-                    $buku->kode_buku,
-                    $buku->judul,
-                    $buku->kategori,
-                    $buku->pengarang,
-                    $buku->penerbit,
-                    $buku->tahun_terbit,
-                    $buku->isbn,
-                    $buku->harga,
-                    $buku->stok,
-                ]);
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\BukuExport,
+            'buku_' . date('Y-m-d_His') . '.xlsx'
+        );
     }
 }

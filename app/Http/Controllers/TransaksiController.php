@@ -14,13 +14,34 @@ class TransaksiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transaksis = Transaksi::with(['anggota', 'buku'])
-            ->latest()
-            ->get();
+        $query = Transaksi::with(['anggota', 'buku']);
 
-        return view('transaksi.index', compact('transaksis'));
+        // Filter status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter anggota
+        if ($request->filled('anggota_id')) {
+            $query->where('anggota_id', $request->anggota_id);
+        }
+
+        // Filter tanggal pinjam range
+        if ($request->filled('dari')) {
+            $query->whereDate('tanggal_pinjam', '>=', $request->dari);
+        }
+        if ($request->filled('sampai')) {
+            $query->whereDate('tanggal_pinjam', '<=', $request->sampai);
+        }
+
+        $transaksis = $query->latest()->get();
+
+        // Data for filter dropdowns
+        $anggotas = Anggota::orderBy('nama')->get();
+
+        return view('transaksi.index', compact('transaksis', 'anggotas'));
     }
 
     /**
@@ -128,35 +149,36 @@ class TransaksiController extends Controller
     /**
      * Kembalikan buku (update status transaksi).
      */
-    public function kembalikan(string $id)
-    {
-        try {
-            DB::transaction(function () use ($id) {
-                $transaksi = Transaksi::findOrFail($id);
-
-                // 1. Update transaksi
-                $tanggalDikembalikan = now();
-                $denda = $this->hitungDenda($transaksi, $tanggalDikembalikan);
-
-                $transaksi->update([
-                    'status' => 'Dikembalikan',
-                    'tanggal_dikembalikan' => $tanggalDikembalikan,
-                    'denda' => $denda,
-                ]);
-
-                // 2. Update stok buku (tambah 1)
-                $transaksi->buku->increment('stok');
-            });
-
-            return redirect()->route('transaksi.show', $id)
-                ->with('success', 'Buku berhasil dikembalikan!');
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Gagal mengembalikan buku: ' . $e->getMessage());
-        }
+   public function kembalikan(string $id)
+{
+    try {
+        DB::transaction(function () use ($id) {
+            $transaksi = Transaksi::findOrFail($id);
+ 
+            // Cek apakah sudah dikembalikan
+            if ($transaksi->status === 'Dikembalikan') {
+                throw new \Exception('Buku sudah dikembalikan sebelumnya.');
+            }
+ 
+            $tanggalDikembalikan = now();
+            $denda = $this->hitungDenda($transaksi, $tanggalDikembalikan);
+ 
+            $transaksi->update([
+                'status' => 'Dikembalikan',
+                'tanggal_dikembalikan' => $tanggalDikembalikan,
+                'denda' => $denda,
+            ]);
+ 
+            $transaksi->buku->increment('stok');
+        });
+ 
+        return redirect()->route('transaksi.show', $id)
+                         ->with('success', 'Buku berhasil dikembalikan!');
+    } catch (\Exception $e) {
+        return redirect()->back()
+                         ->with('error', 'Gagal mengembalikan buku: ' . $e->getMessage());
     }
-
+}
     /**
      * Generate kode transaksi otomatis.
      */
