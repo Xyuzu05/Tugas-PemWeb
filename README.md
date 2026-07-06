@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 13">
+  <img src="https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 12">
   <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.3">
   <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap 5.3">
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
@@ -157,7 +157,7 @@ Dibangun dengan antarmuka yang **modern, responsif, dan user-friendly** mengguna
 
 | Teknologi | Keterangan |
 |-----------|------------|
-| **Laravel 13** | Framework PHP modern dengan arsitektur MVC |
+| **Laravel 12** | Framework PHP modern dengan arsitektur MVC |
 | **PHP 8.3+** | Bahasa pemrograman backend |
 | **MySQL** | Database relasional |
 | **Eloquent ORM** | Database abstraction layer |
