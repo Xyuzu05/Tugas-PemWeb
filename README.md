@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 12">
   <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.3">
   <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap 5.3">
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
@@ -401,7 +401,7 @@ Buat akun pengguna melalui halaman Register, atau gunakan data yang sudah di-see
 <div align="center">
   <p>
     <strong>Sistem Informasi Perpustakaan</strong><br>
-    Dibangun dengan ❤️ menggunakan Laravel 13
+    Dibangun dengan ❤️ menggunakan Laravel 12
   </p>
   <p>
     <sub>© 2026 — All Rights Reserved</sub>
