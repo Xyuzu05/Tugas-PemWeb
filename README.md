@@ -1,279 +1,409 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard Perpustakaan') }}
-        </h2>
-    </x-slot>
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 13">
+  <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.3">
+  <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap 5.3">
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+</p>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
-                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Total Buku</p>
-                                <p class="text-2xl font-semibold text-gray-900">{{ \App\Models\Buku::count() }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div align="center">
+  <h1>📚 Sistem Informasi Perpustakaan</h1>
+  <p><strong>Sistem Manajemen Perpustakaan Digital berbasis Web</strong></p>
+  <p>
+    Aplikasi manajemen perpustakaan modern untuk mengelola data buku, anggota, 
+    dan transaksi peminjaman secara efisien dengan fitur notifikasi keterlambatan 
+    dan pelaporan yang lengkap.
+  </p>
+</div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
-                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Total Anggota</p>
-                                <p class="text-2xl font-semibold text-gray-900">{{ \App\Models\Anggota::count() }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+---
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
-                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Dipinjam</p>
-                                <p class="text-2xl font-semibold text-gray-900">
-                                    {{ \App\Models\Transaksi::where('status', 'Dipinjam')->count() }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+## 📋 Daftar Isi
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
-                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600">Transaksi Hari Ini</p>
-                                <p class="text-2xl font-semibold text-gray-900">
-                                    {{ \App\Models\Transaksi::whereDate('created_at', today())->count() }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+- [Deskripsi Project](#-deskripsi-project)
+- [Fitur Lengkap](#-fitur-lengkap)
+- [Screenshots](#-screenshots)
+- [Tech Stack](#️-tech-stack)
+- [Struktur Database](#-struktur-database)
+- [Instalasi Step-by-Step](#-instalasi-step-by-step)
+- [Cara Penggunaan](#-cara-penggunaan)
+- [Author](#-author)
 
-                {{-- Tugas 3: Card Buku Terlambat --}}
-                @php
-                    $bukuTerlambat = \App\Models\Transaksi::with(['anggota', 'buku'])
-                        ->where('status', 'Dipinjam')
-                        ->where('tanggal_kembali', '<', now())
-                        ->get();
-                @endphp
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-2 border-red-500">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0 bg-red-500 rounded-md p-3">
-                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                                </svg>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-red-600">Buku Terlambat</p>
-                                <p class="text-2xl font-semibold text-red-600">{{ $bukuTerlambat->count() }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+---
 
-            <!-- Quick Actions -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold mb-4">Aksi Cepat</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <a href="{{ route('buku.create') }}"
-                            class="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                            <svg class="h-8 w-8 text-blue-600 mr-3" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            <span class="font-medium text-blue-900">Tambah Buku</span>
-                        </a>
+## 📖 Deskripsi Project
 
-                        <a href="{{ route('anggota.create') }}"
-                            class="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
-                            <svg class="h-8 w-8 text-green-600 mr-3" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                            </svg>
-                            <span class="font-medium text-green-900">Tambah Anggota</span>
-                        </a>
+**Sistem Informasi Perpustakaan** adalah aplikasi web berbasis **Laravel 13** yang dirancang untuk mengelola operasional perpustakaan secara digital. Aplikasi ini mencakup manajemen koleksi buku, data anggota, transaksi peminjaman dan pengembalian, notifikasi keterlambatan, serta pelaporan yang lengkap.
 
-                        <a href="{{ route('transaksi.create') }}"
-                            class="flex items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
-                            <svg class="h-8 w-8 text-yellow-600 mr-3" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                            </svg>
-                            <span class="font-medium text-yellow-900">Pinjam Buku</span>
-                        </a>
+Dibangun dengan antarmuka yang **modern, responsif, dan user-friendly** menggunakan Bootstrap 5.3 dengan desain sistem yang konsisten di seluruh halaman.
 
-                        <a href="{{ route('transaksi.index') }}"
-                            class="flex items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
-                            <svg class="h-8 w-8 text-purple-600 mr-3" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                            <span class="font-medium text-purple-900">Lihat Transaksi</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+### Tujuan:
 
-            {{-- Tugas 3: Daftar Buku Terlambat --}}
-            @if($bukuTerlambat->count() > 0)
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 border-2 border-red-300">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold mb-4 text-red-600">
-                            <svg class="h-5 w-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                            </svg>
-                            Daftar Buku Terlambat
-                        </h3>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-red-50">
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
-                                            Anggota</th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
-                                            Buku</th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
-                                            Batas Kembali</th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
-                                            Terlambat</th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">
-                                            Est. Denda</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($bukuTerlambat as $item)
-                                        <tr class="hover:bg-red-50">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {{ $item->anggota->nama }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {{ $item->buku->judul }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {{ $item->tanggal_kembali->format('d M Y') }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                    {{ $item->tanggal_kembali->diffInDays(now()) }} hari
-                                                </span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-red-600">
-                                                Rp
-                                                {{ number_format($item->tanggal_kembali->diffInDays(now()) * 5000, 0, ',', '.') }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
+- ✅ Mempermudah pencatatan dan pelacakan peminjaman buku
+- ✅ Menyediakan dashboard informasi real-time tentang status perpustakaan
+- ✅ Mendeteksi dan menampilkan notifikasi keterlambatan secara otomatis
+- ✅ Menyediakan riwayat peminjaman lengkap per anggota
+- ✅ Menghasilkan laporan transaksi dalam format PDF
 
-            <!-- Recent Transactions -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold mb-4">Transaksi Terbaru</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Kode</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Anggota</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Buku</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tanggal Pinjam</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse(\App\Models\Transaksi::with(['anggota', 'buku'])->latest()->take(5)->get() as $transaksi)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {{ $transaksi->kode_transaksi }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $transaksi->anggota->nama }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $transaksi->buku->judul }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $transaksi->tanggal_pinjam->format('d M Y') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $transaksi->status == 'Dipinjam' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' }}">
-                                                {{ $transaksi->status }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                            Belum ada transaksi
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+---
+
+## ✨ Fitur Lengkap
+
+### 📊 Dashboard
+
+- [x] Kartu statistik utama (Total Buku, Anggota Aktif, Sedang Dipinjam, dll.)
+- [x] Grafik transaksi 6 bulan terakhir (Chart.js)
+- [x] Grafik donat 5 buku terpopuler
+- [x] **Widget Buku Terlambat** dengan daftar anggota dan denda
+- [x] Daftar anggota teraktif
+- [x] Transaksi terbaru
+
+### 📚 Manajemen Buku
+
+- [x] CRUD lengkap (Create, Read, Update, Delete)
+- [x] Pencarian dan filter berdasarkan kata kunci & tahun terbit
+- [x] Kategori buku yang dapat dipilih
+- [x] Bulk delete (hapus massal)
+- [x] Export data ke CSV
+- [x] Detail buku dengan riwayat peminjaman
+- [x] Rekomendasi buku serupa berdasarkan kategori
+
+### 👥 Manajemen Anggota
+
+- [x] CRUD lengkap (Create, Read, Update, Delete)
+- [x] Pencarian dan filter berdasarkan status
+- [x] Export data ke Excel
+- [x] Kode anggota otomatis
+- [x] **Riwayat peminjaman lengkap** per anggota
+- [x] Statistik peminjaman anggota (Total Pinjam, Denda, dll.)
+- [x] Filter riwayat berdasarkan status transaksi
+
+### 🔄 Transaksi Peminjaman
+
+- [x] Peminjaman buku dengan pemilihan anggota & buku
+- [x] Tanggal kembali otomatis (H+7)
+- [x] Validasi stok buku sebelum peminjaman
+- [x] Pengembalian buku dengan konfirmasi SweetAlert2
+- [x] Perhitungan denda otomatis (Rp 5.000/hari)
+- [x] **Notifikasi keterlambatan** di detail transaksi
+- [x] Badge "Terlambat X hari" di tabel transaksi
+
+### 📈 Laporan
+
+- [x] Filter laporan berdasarkan tanggal, status, dan anggota
+- [x] Ringkasan statistik (Total, Dipinjam, Dikembalikan, Denda)
+- [x] Export laporan ke **PDF** (DomPDF)
+
+### 🔐 Autentikasi & Keamanan
+
+- [x] Login & Register
+- [x] Reset password
+- [x] Proteksi route dengan middleware auth
+- [x] Manajemen profil pengguna
+
+### 🎨 Desain & UX
+
+- [x] Antarmuka modern dengan desain sistem yang konsisten
+- [x] Navigasi sticky dengan glassmorphism effect
+- [x] Breadcrumb di setiap halaman
+- [x] Kartu statistik dengan ikon gradien
+- [x] Tabel modern dengan hover effect
+- [x] **Fully responsive** (mobile, tablet, desktop)
+- [x] Font Inter yang modern dan mudah dibaca
+- [x] Animasi dan transisi halus
+- [x] Auto-dismiss flash messages
+- [x] SweetAlert2 untuk konfirmasi tindakan
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### 🔐 Halaman Login
+
+<img src="docs/image/Login.png" alt="Halaman Login" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+### 📊 Dashboard
+
+<img src="docs/image/Dasboard.png" alt="Dashboard" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+### 📚 Daftar Buku
+
+<img src="docs/image/Buku.png" alt="Daftar Buku" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+### 👥 Daftar Anggota
+
+<img src="docs/image/Anggota.png" alt="Daftar Anggota" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+### 🔄 Daftar Transaksi
+
+<img src="docs/image/Transaksi.png" alt="Daftar Transaksi" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+### 📈 Laporan Transaksi
+
+<img src="docs/image/Laporan.png" alt="Laporan Transaksi" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+### 👤 Profil Pengguna
+
+<img src="docs/image/Profile.png" alt="Profil Pengguna" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+</div>
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+
+| Teknologi | Keterangan |
+|-----------|------------|
+| **Laravel 13** | Framework PHP modern dengan arsitektur MVC |
+| **PHP 8.3+** | Bahasa pemrograman backend |
+| **MySQL** | Database relasional |
+| **Eloquent ORM** | Database abstraction layer |
+
+### Frontend
+
+| Teknologi | Keterangan |
+|-----------|------------|
+| **Bootstrap 5.3** | CSS framework responsive |
+| **Inter Font** | Typeface modern dari Google Fonts |
+| **Bootstrap Icons** | Icon set terintegrasi |
+| **Chart.js** | Library grafik interaktif |
+| **SweetAlert2** | Dialog dan notifikasi modern |
+| **Flatpickr** | Date picker yang ringan |
+
+### Package & Library
+
+| Package | Fungsi |
+|---------|--------|
+| **Laravel Breeze** | Autentikasi scaffolding |
+| **Barryvdh DomPDF** | Export laporan ke PDF |
+| **Maatwebsite Excel** | Export data ke Excel/CSV |
+| **Carbon** | Manipulasi tanggal |
+
+---
+
+## 🗄️ Struktur Database
+
+### Tabel Users
+
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| `id` | bigint, PK | Primary key |
+| `name` | varchar(255) | Nama pengguna |
+| `email` | varchar(255), unique | Email login |
+| `password` | varchar(255) | Password (bcrypt) |
+| `email_verified_at` | timestamp, nullable | Verifikasi email |
+
+### Tabel Buku
+
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| `id` | bigint, PK | Primary key |
+| `kode_buku` | varchar(20), unique | Kode unik buku |
+| `judul` | varchar(200) | Judul buku |
+| `kategori` | enum | Programming, Database, Web Design, Networking, Data Science |
+| `pengarang` | varchar(100) | Nama pengarang |
+| `penerbit` | varchar(100) | Nama penerbit |
+| `tahun_terbit` | year | Tahun terbit |
+| `isbn` | varchar(20), nullable | Nomor ISBN |
+| `harga` | decimal(10,2) | Harga buku |
+| `stok` | integer | Jumlah stok |
+| `deskripsi` | text, nullable | Deskripsi buku |
+| `bahasa` | varchar(20) | Bahasa buku |
+
+### Tabel Anggota
+
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| `id` | bigint, PK | Primary key |
+| `kode_anggota` | varchar(20), unique | Kode unik anggota |
+| `nama` | varchar(100) | Nama lengkap |
+| `email` | varchar(100), unique | Alamat email |
+| `telepon` | varchar(15) | Nomor telepon |
+| `alamat` | text | Alamat rumah |
+| `tanggal_lahir` | date | Tanggal lahir |
+| `jenis_kelamin` | enum | Laki-laki / Perempuan |
+| `pekerjaan` | varchar(50), nullable | Pekerjaan |
+| `tanggal_daftar` | date | Tanggal pendaftaran |
+| `status` | enum | Aktif / Nonaktif |
+
+### Tabel Transaksis
+
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| `id` | bigint, PK | Primary key |
+| `kode_transaksi` | varchar(20), unique | Kode unik transaksi |
+| `anggota_id` | bigint, FK → anggota | ID anggota |
+| `buku_id` | bigint, FK → buku | ID buku |
+| `tanggal_pinjam` | date | Tanggal peminjaman |
+| `tanggal_kembali` | date | Batas tanggal kembali |
+| `tanggal_dikembalikan` | date, nullable | Tanggal actual kembali |
+| `status` | enum | Dipinjam / Dikembalikan |
+| `denda` | integer | Total denda (Rp) |
+| `keterangan` | text, nullable | Catatan transaksi |
+
+---
+
+## 🚀 Instalasi Step-by-Step
+
+### Prasyarat
+
+Pastikan sistem Anda telah terinstall:
+- **PHP** ≥ 8.3
+- **Composer** (dependency manager PHP)
+- **MySQL** / MariaDB
+- **Node.js** & **NPM** (untuk assets)
+- **Git** (opsional)
+
+### Langkah Instalasi
+
+#### 1. Clone Repository
+
+```bash
+git clone https://github.com/username/sistem-perpustakaan.git
+cd sistem-perpustakaan
+```
+
+Atau download dan extract file ZIP ke direktori web server (misal: `C:\xampp\htdocs\Pemweb\final`).
+
+#### 2. Install Dependencies PHP
+
+```bash
+composer install
+```
+
+#### 3. Konfigurasi Environment
+
+```bash
+# Salin file environment
+cp .env.example .env
+```
+
+> **Catatan:** Jika tidak ada file `.env.example`, buat file `.env` baru dan isi dengan konfigurasi berikut:
+>
+> ```env
+> APP_NAME="Sistem Perpustakaan"
+> APP_ENV=local
+> APP_DEBUG=true
+> APP_URL=http://localhost:8000
+>
+> DB_CONNECTION=mysql
+> DB_HOST=127.0.0.1
+> DB_PORT=3306
+> DB_DATABASE=db_perpustakaan
+> DB_USERNAME=root
+> DB_PASSWORD=
+> ```
+
+#### 4. Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+#### 5. Buat Database
+
+Buat database MySQL baru:
+
+```sql
+CREATE DATABASE db_perpustakaan;
+```
+
+Kemudian sesuaikan konfigurasi database di file `.env` sesuai dengan environment Anda.
+
+#### 6. Jalankan Migration & Seeder
+
+```bash
+php artisan migrate --seed
+```
+
+Perintah ini akan:
+- Membuat semua tabel yang diperlukan
+- Mengisi data awal (buku, anggota, kategori)
+
+#### 7. Install & Build Frontend Assets (Opsional)
+
+```bash
+npm install
+npm run build
+```
+
+#### 8. Jalankan Aplikasi
+
+```bash
+php artisan serve
+```
+
+Akses aplikasi di: **http://localhost:8000**
+
+#### 9. Login
+
+Buat akun pengguna melalui halaman Register, atau gunakan data yang sudah di-seed (jika ada).
+
+---
+
+## 💡 Cara Penggunaan
+
+### Alur Kerja Umum
+
+1. **Login** — Masuk menggunakan email dan password
+2. **Kelola Buku** — Tambah data buku baru melalui menu Buku
+3. **Kelola Anggota** — Daftarkan anggota baru melalui menu Anggota
+4. **Transaksi Peminjaman** — Pilih anggota & buku untuk membuat transaksi
+5. **Pantau Dashboard** — Lihat statistik, buku terlambat, dan grafik
+6. **Pengembalian** — Klik tombol "Proses Pengembalian" di detail transaksi
+7. **Laporan** — Filter dan export laporan ke PDF
+
+### Fitur Unggulan
+
+| Fitur | Cara Akses |
+|-------|------------|
+| **Dashboard** | Navigasi → Dashboard |
+| **Widget Buku Terlambat** | Muncul otomatis di Dashboard jika ada yang terlambat |
+| **Riwayat Anggota** | Klik detail anggota → Scroll ke Riwayat Peminjaman |
+| **Filter Status Riwayat** | Di halaman detail anggota → dropdown filter status |
+| **Export PDF** | Laporan → Export PDF |
+| **Pencarian Global** | Search bar di navbar (pojok kanan atas) |
+
+---
+
+## 👨‍💻 Author
+
+<div align="center">
+  <table>
+    <tr>
+      <td><strong>Nama</strong></td>
+      <td>Lukman Shodik</td>
+    </tr>
+    <tr>
+      <td><strong>NIM</strong></td>
+      <td>60324065</td>
+    </tr>
+    <tr>
+      <td><strong>Mata Kuliah</strong></td>
+      <td>Pemrograman Web 2</td>
+    </tr>
+    <tr>
+      <td><strong>Universitas</strong></td>
+      <td>UIN K.H. Abdurrahman Wahid Pekalongan</td>
+    </tr>
+    <tr>
+      <td><strong>Email</strong></td>
+      <td>lukman.shodik99@gmail.com</td>
+    </tr>
+  </table>
+</div>
+
+---
+
+<div align="center">
+  <p>
+    <strong>Sistem Informasi Perpustakaan</strong><br>
+    Dibangun dengan ❤️ menggunakan Laravel 13
+  </p>
+  <p>
+    <sub>© 2026 — All Rights Reserved</sub>
+  </p>
+</div>
