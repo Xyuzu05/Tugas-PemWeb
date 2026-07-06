@@ -115,40 +115,6 @@ Dibangun dengan antarmuka yang **modern, responsif, dan user-friendly** mengguna
 
 ---
 
-## 📸 Screenshots
-
-<div align="center">
-
-### 🔐 Halaman Login
-
-<img src="docs/image/Login.png" alt="Halaman Login" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-### 📊 Dashboard
-
-<img src="docs/image/Dasboard.png" alt="Dashboard" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-### 📚 Daftar Buku
-
-<img src="docs/image/Buku.png" alt="Daftar Buku" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-### 👥 Daftar Anggota
-
-<img src="docs/image/Anggota.png" alt="Daftar Anggota" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-### 🔄 Daftar Transaksi
-
-<img src="docs/image/Transaksi.png" alt="Daftar Transaksi" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-### 📈 Laporan Transaksi
-
-<img src="docs/image/Laporan.png" alt="Laporan Transaksi" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-### 👤 Profil Pengguna
-
-<img src="docs/image/Profile.png" alt="Profil Pengguna" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-
-</div>
-
 ---
 
 ## 🛠️ Tech Stack
